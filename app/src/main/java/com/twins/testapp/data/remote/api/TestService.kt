@@ -7,11 +7,10 @@ import retrofit2.http.Query
 
 interface TestService {
     companion object {
-        const val BASE_API_URL = "https://api.themoviedb.org/3/"
+        const val BASE_API_URL = "https://api.themoviedb.org/"
     }
 
-    @GET("/movie/popular")
-//    @Headers("Content-Type: application/json", "Accept: application/json")
+    @GET("/3/movie/popular")
     suspend fun getPopularMovies(
         @Query("api_key") apiKey: String,
         @Query("page") page: Int

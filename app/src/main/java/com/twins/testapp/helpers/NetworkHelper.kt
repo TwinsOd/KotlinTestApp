@@ -13,6 +13,7 @@ suspend fun <T> safeApiCall(dispatcher: CoroutineDispatcher, apiCall: suspend ()
     return withContext(dispatcher) {
         try {
             val response = apiCall.invoke()
+            Timber.i("invoke")
             if (response != null)
                 ResultWrapper.Success(response)
             else
