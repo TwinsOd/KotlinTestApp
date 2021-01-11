@@ -42,12 +42,14 @@ class MovieDetailsFragment : Fragment() {
         movieDetailsViewModel.movieDetailsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is AppResponse.Success -> {
+                    progressBar.visibility = View.GONE
                     val movieDetails: MovieDetails = it.data
                     title_view.text = movieDetails.title
                     overview_view.text = movieDetails.overview
                     date_view.text = movieDetails.release_date
                 }
                 is AppResponse.Error -> {
+                    progressBar.visibility = View.GONE
                     Toast.makeText(view.context, it.errorResponse, Toast.LENGTH_SHORT).show()
                 }
             }
