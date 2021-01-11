@@ -1,5 +1,6 @@
 package com.twins.testapp.data.repository
 
+import com.twins.testapp.BuildConfig
 import com.twins.testapp.data.remote.api.TestService
 import com.twins.testapp.helpers.safeApiCall
 import com.twins.testapp.model.Movie
@@ -15,16 +16,15 @@ class MovieRepository @Inject constructor(
     private val testService: TestService,
 ) {
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val apiKey: String by lazy { BuildConfig.API_KEY }
 
     suspend fun getMovies(page: Int): ResultWrapper<PopularMoviesResponse?> {
-        val apiKey = "1146110d26c9d41c58f6435077267513"
         return safeApiCall(dispatcher) {
             testService.getPopularMovies(apiKey, page).body()
         }
     }
 
     suspend fun getMovieDetails(id: Int): ResultWrapper<MovieDetails?> {
-        val apiKey = "1146110d26c9d41c58f6435077267513"
         return safeApiCall(dispatcher) {
             testService.getMovieDetails(id, apiKey).body()
         }
