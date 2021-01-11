@@ -11,26 +11,33 @@ import com.twins.testapp.model.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
 import timber.log.Timber
 
-class MovieAdapter(): PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieComparator) {
+class MovieAdapter(
+    private val onClickListener: View.OnClickListener
+) : PagingDataAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieComparator) {
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = getItem(position)
-        Timber.i("onBindViewHolder ${item?.id}")
-
         holder.itemView.title_view.text = item?.title
         holder.itemView.overview_view.text = item?.overview
         holder.itemView.date_view.text = item?.release_date
+        holder.itemView.tag = item?.id
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         Timber.i("onCreateViewHolder")
         return MovieViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_movie, parent, false)
+                .inflate(R.layout.item_movie, parent, false),
+            onClickListener
         )
     }
 
-    class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class MovieViewHolder(view: View, onClickListener: View.OnClickListener) :
+        RecyclerView.ViewHolder(view) {
+        init {
+            view.setOnClickListener(onClickListener)
+        }
+    }
 
     object MovieComparator : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {

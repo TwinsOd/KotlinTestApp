@@ -17,7 +17,7 @@ class MoviesPagingSource(
             val nextPage = params.key ?: 1
             Timber.i("loading $nextPage")
 
-            when (val response = movieRepository.getMovie(nextPage)) {
+            when (val response = movieRepository.getMovies(nextPage)) {
                 is ResultWrapper.Success -> {
                     val data = response.value
                     Timber.i("list size ${data?.results?.size}")

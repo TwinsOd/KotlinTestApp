@@ -25,8 +25,8 @@ object ApiModule {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY;
         val okHttpClient = OkHttpClient.Builder()
-            .addInterceptor(interceptor) // same for .addInterceptor(...)
-            .connectTimeout(TIME_OUT, TimeUnit.SECONDS) //Backend is really slow
+            .addInterceptor(interceptor)
+            .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
             .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
             .readTimeout(TIME_OUT, TimeUnit.SECONDS)
             .build()
