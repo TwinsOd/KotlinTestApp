@@ -2,9 +2,12 @@ package com.twins.testapp.ui.movieDetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.twins.testapp.R
@@ -20,12 +23,18 @@ const val ARG_ID = "arg_id"
 class MovieDetailsFragment : Fragment() {
     private val movieDetailsViewModel: MovieDetailsViewModel by viewModels()
     private var id: Int? = null
+    private var supportActionBar: ActionBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             id = it.getInt(ARG_ID)
             Timber.i("id $id")
+        }
+        supportActionBar = (activity as AppCompatActivity).supportActionBar
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = ""
         }
     }
 
@@ -45,6 +54,7 @@ class MovieDetailsFragment : Fragment() {
                     progressBar.visibility = View.GONE
                     val movieDetails: MovieDetails = it.data
                     title_view.text = movieDetails.title
+                    supportActionBar?.title = movieDetails.title
                     overview_view.text = movieDetails.overview
                     date_view.text = movieDetails.release_date
                 }
