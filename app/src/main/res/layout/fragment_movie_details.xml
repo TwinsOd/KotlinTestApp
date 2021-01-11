@@ -22,7 +22,7 @@
             android:layout_margin="16dp"/>
 
         <TextView
-            android:id="@+id/title_view"
+            android:id="@+id/titleView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="21sp"
@@ -32,7 +32,7 @@
             tools:text="Wonder Woman 1984" />
 
         <TextView
-            android:id="@+id/date_view"
+            android:id="@+id/dateView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -40,7 +40,7 @@
             tools:text="2020-12-16" />
 
         <TextView
-            android:id="@+id/overview_view"
+            android:id="@+id/overviewView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"

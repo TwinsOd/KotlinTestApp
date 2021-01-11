@@ -7,8 +7,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.twins.testapp.R
+import com.twins.testapp.databinding.ItemMovieBinding
 import com.twins.testapp.model.Movie
-import kotlinx.android.synthetic.main.item_movie.view.*
 import timber.log.Timber
 
 class MovieAdapter(
@@ -17,10 +17,10 @@ class MovieAdapter(
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.title_view.text = item?.title
-        holder.itemView.overview_view.text = item?.overview
-        holder.itemView.date_view.text = item?.release_date
-        holder.itemView.tag = item?.id
+        item?.let {
+            holder.bind(it)
+            holder.itemView.tag = it.id
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -36,6 +36,16 @@ class MovieAdapter(
         RecyclerView.ViewHolder(view) {
         init {
             view.setOnClickListener(onClickListener)
+        }
+
+        private val binding = ItemMovieBinding.bind(view)
+
+        fun bind(movie: Movie) {
+            with(binding) {
+                titleView.text = movie.title
+                overviewView.text = movie.overview
+                dateView.text = movie.release_date
+            }
         }
     }
 

@@ -12,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twins.testapp.R
+import com.twins.testapp.databinding.FragmentMovieListBinding
 import com.twins.testapp.ui.movieDetails.ARG_ID
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_movie_list.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -24,11 +24,15 @@ class MovieListFragment : Fragment() {
     private lateinit var movieAdapter: MovieAdapter
     private val movieListViewModel: MovieListViewModel by viewModels()
 
+    private var _binding: FragmentMovieListBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_movie_list, container, false)
+        _binding = FragmentMovieListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +45,7 @@ class MovieListFragment : Fragment() {
             findNavController().navigate(R.id.action_MovieListFragment_to_movieDetailsFragment, bundle)
         }
         initSwipeToRefresh()
-        movieListView.apply {
+        binding.movieListView.apply {
             layoutManager = LinearLayoutManager(view.context)
             setHasFixedSize(true)
             adapter = movieAdapter
@@ -54,7 +58,7 @@ class MovieListFragment : Fragment() {
         }
 
         movieAdapter.addLoadStateListener { loadState ->
-            swipe_refresh.isRefreshing = loadState.refresh is LoadState.Loading
+            binding.swipeRefresh.isRefreshing = loadState.refresh is LoadState.Loading
         }
     }
 
@@ -67,6 +71,11 @@ class MovieListFragment : Fragment() {
     }
 
     private fun initSwipeToRefresh() {
-        swipe_refresh.setOnRefreshListener { movieAdapter.refresh() }
+        binding.swipeRefresh.setOnRefreshListener { movieAdapter.refresh() }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
